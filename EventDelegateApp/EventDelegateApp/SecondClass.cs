@@ -7,7 +7,7 @@ namespace EventDelegateApp
     {
         static void Main()
         {
-            MyDelegate mDel = new MyDelegate(SendMeSum);
+            MyDelegate mDel = new MyDelegate(SendMeMult);
             SomeClass someClass = new SomeClass();
 
             Console.WriteLine(mDel==null);
@@ -17,7 +17,7 @@ namespace EventDelegateApp
             someClass.MyEvent += SecondClass.SendMeSum;//подписка
             someClass.StartEvent();//стартуем событие
 
-            Console.WriteLine(mDel == null);
+            //Console.WriteLine(mDel == null);
 
 			Console.WriteLine("=========================");
             MulticastDelegate m = (MulticastDelegate)mDel;
@@ -27,9 +27,17 @@ namespace EventDelegateApp
 				Console.WriteLine(d);
             }
 
+            var qut = mDel.GetInvocationList();
+            foreach(Delegate _d in qut)
+            {
+                Console.WriteLine(_d);
+            }
+
 			someClass.MyEvent -= SendMeSum;//одписка
             someClass.MyEvent -= SendMeMult;
-
+            Console.WriteLine("--------------------------");
+            //someClass.StartEvent();- NullReferenceEx
+			Console.WriteLine("--------------------------");
             Console.WriteLine(mDel == null);
 
             Console.WriteLine("/////////////////////////");
