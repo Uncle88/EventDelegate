@@ -9,11 +9,15 @@ namespace EventDelegateApp
         {
             MyDelegate mDel = new MyDelegate(SendMeSum);
             SomeClass someClass = new SomeClass();
+
+            Console.WriteLine(mDel==null);
+
             //someClass.MyEvent += new MyDelegate(SendMeSum);
             someClass.MyEvent += SecondClass.SendMeMult;
             someClass.MyEvent += SecondClass.SendMeSum;//подписка
             someClass.StartEvent();//стартуем событие
 
+            Console.WriteLine(mDel == null);
 
 			Console.WriteLine("=========================");
             MulticastDelegate m = (MulticastDelegate)mDel;
@@ -24,6 +28,17 @@ namespace EventDelegateApp
             }
 
 			someClass.MyEvent -= SendMeSum;//одписка
+            someClass.MyEvent -= SendMeMult;
+
+            Console.WriteLine(mDel == null);
+
+            Console.WriteLine("/////////////////////////");
+			MulticastDelegate m2 = (MulticastDelegate)mDel;
+			var list2 = m.GetInvocationList();
+			foreach (Delegate d in list)
+			{
+				Console.WriteLine(d);
+			}
             //Console.WriteLine("There was an unsubscription");
             Console.WriteLine(mDel(6, 8));
 
