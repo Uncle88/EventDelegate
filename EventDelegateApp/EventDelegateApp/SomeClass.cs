@@ -3,13 +3,12 @@ namespace EventDelegateApp
 {
     public class SomeClass
     {
-        public delegate void Alphabet(string _char);
-        public Alphabet del;
-        public event Alphabet LetterAlphabetEvent;
+        public delegate int MyDelegate(int a , int b);
+        public event MyDelegate MyEvent;
 
         public void StartEvent()
         {
-            LetterAlphabetEvent("jojo- event is start!!!");
+            MyEvent(3,2);
         }
     }
 }

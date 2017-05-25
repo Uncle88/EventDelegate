@@ -1,30 +1,43 @@
 ﻿using System;
+using static EventDelegateApp.SomeClass;
+
 namespace EventDelegateApp
 {
     public class SecondClass
     {
-        
         static void Main()
         {
+            MyDelegate mDel = new MyDelegate(SendMeSum);
             SomeClass someClass = new SomeClass();
-            someClass.LetterAlphabetEvent += SendMeCharacter;//подписка
+            //someClass.MyEvent += new MyDelegate(SendMeSum);
+            someClass.MyEvent += SecondClass.SendMeMult;
+            someClass.MyEvent += SecondClass.SendMeSum;//подписка
             someClass.StartEvent();//стартуем событие
 
-            for (int thk = someClass.del.GetInvocationList().Length; thk >= 0;thk++)
-                Console.WriteLine(thk);
 
-            someClass.LetterAlphabetEvent -= SendMeCharacter;//одписка
-            Console.WriteLine("There was an unsubscription");
+			Console.WriteLine("=========================");
+            MulticastDelegate m = (MulticastDelegate)mDel;
+			var list = m.GetInvocationList();
+			foreach (Delegate d in list)
+			{
+				Console.WriteLine(d);
+            }
 
-            for (int thk2 = someClass.del.GetInvocationList().Length; thk2 >= 0; thk2++)
-				Console.WriteLine(thk2);
-            
+			someClass.MyEvent -= SendMeSum;//одписка
+            //Console.WriteLine("There was an unsubscription");
+            Console.WriteLine(mDel(6, 8));
+
             Console.ReadLine();
 		}
 
-        private static void SendMeCharacter(string _char)//подписчик(обработчик) события
+        private static int SendMeSum(int s,int r)//подписчик(обработчик) события
         {
-            Console.WriteLine("Take the letter A");
+            return s + r;
+        }
+
+        private static int SendMeMult(int q,int e)
+        {
+            return q * e;
         }
     }
 }
