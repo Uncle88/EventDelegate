@@ -7,7 +7,7 @@ namespace EventDelegateApp
     {
         static void Main()
         {
-            MyDelegate mDel = new MyDelegate(SendMeMult);
+            MyDelegate mDel = new MyDelegate(SendMeSum);
             SomeClass someClass = new SomeClass();
 
             Console.WriteLine(mDel==null);
@@ -49,7 +49,8 @@ namespace EventDelegateApp
 			}
             //Console.WriteLine("There was an unsubscription");
             Console.WriteLine(mDel(6, 8));
-
+            mDel = SecondClass.SendMeMult;
+			Console.WriteLine(mDel(6, 8));
             Console.ReadLine();
 		}
 
